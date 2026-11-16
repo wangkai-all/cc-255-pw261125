@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>接收工作台</title>
+<link rel="stylesheet" href="/static/css/app.css">
+</head>
+<body>
+<header>
+  <h1>🗂️ 接收工作台 — 离线答卷回传与冲突裁决</h1>
+  <a href="/device.html?device=A">设备 A</a>
+  <a href="/device.html?device=B">设备 B</a>
+  <button class="ghost pill-btn" id="btnReset" style="margin-left:auto;">重置演示数据</button>
+</header>
+<main>
+  <div class="grid3">
+    <div class="card">
+      <h2>答卷状态</h2>
+      <div class="kv">
+        <span class="k">答卷 ID</span><span class="mono" id="wbRespId"></span>
+        <span class="k">当前状态</span><span id="wbStatus"></span>
+        <span class="k">头部修订</span><span id="wbHeadRev"></span>
+        <span class="k">头部指纹</span><span class="mono small" id="wbHeadFp"></span>
+      </div>
+    </div>
+    <div class="card">
+      <h2>附件齐套性</h2>
+      <div id="wbCompleteness"></div>
+    </div>
+    <div class="card">
+      <h2>发布门禁</h2>
+      <div id="wbGate" class="small"></div>
+      <button id="btnPublish" style="margin-top:10px;">发布答卷</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>冲突裁决中心（每条展示系统自动裁决/挂起的依据）</h2>
+    <div id="wbConflicts"></div>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h2>字段当前值与修订历史</h2>
+      <div id="wbFields"></div>
+      <details><summary>展开字段级修订流水</summary><div id="wbRevisions"></div></details>
+    </div>
+    <div class="card">
+      <h2>保留的整份分支</h2>
+      <div id="wbBranches" class="small muted">无</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>接收确认收据（原始回传存证，先于一切合并处理）</h2>
+    <div id="wbReceipts"></div>
+  </div>
+
+  <div class="card">
+    <h2>操作队列（seq FIFO：旧合并任务不能越过新撤回）</h2>
+    <div id="wbQueue"></div>
+  </div>
+
+  <div class="card">
+    <h2>审计日志</h2>
+    <div id="wbAudit"></div>
+  </div>
+</main>
+<div class="toast" id="toast"></div>
+<script src="/static/js/common.js"></script>
+<script src="/static/js/workbench.js"></script>
+</body>
+</html>

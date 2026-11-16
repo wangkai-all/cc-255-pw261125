@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>离线设备</title>
+<link rel="stylesheet" href="/static/css/app.css">
+</head>
+<body>
+<header>
+  <h1>📱 离线设备 <span id="deviceName"></span></h1>
+  <div class="net">
+    <span class="dot" id="netDot"></span>
+    <label class="small" style="display:flex;align-items:center;gap:6px;">
+      <input type="checkbox" id="netToggle" checked> 网络在线（取消勾选即断网，本地继续编辑）
+    </label>
+  </div>
+  <a href="/workbench.html">→ 接收工作台</a>
+  <span class="tag" id="peerLink"></span>
+</header>
+<main>
+  <div class="grid">
+    <div>
+      <div class="card">
+        <h2>本地答卷（localStorage 模拟设备本地库）</h2>
+        <div class="kv" style="margin-bottom:10px;">
+          <span class="k">答卷 ID</span><span class="mono" id="respId"></span>
+          <span class="k">本地基准修订</span><span id="baseRev"></span>
+          <span class="k">基准指纹</span><span class="mono small" id="baseFp"></span>
+          <span class="k">当前本地指纹</span><span class="mono small" id="localFp"></span>
+          <span class="k">待发操作</span><span id="outboxCount"></span>
+        </div>
+        <div id="fieldForm"></div>
+        <button id="btnSubmit">提交答卷回传</button>
+        <button class="warn" id="btnWithdraw">撤回答卷</button>
+        <button class="ghost" id="btnTamper">🔧 制造指纹不符（篡改本地基准指纹）</button>
+      </div>
+
+      <div class="card">
+        <h2>本地附件（与答卷分开回传，可晚到）</h2>
+        <div id="attachSlots"></div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card">
+        <h2>发件箱 Outbox（断网时排队，恢复后按序回传）</h2>
+        <table>
+          <thead><tr><th>操作号</th><th>类型</th><th>摘要</th><th>状态</th><th></th></tr></thead>
+          <tbody id="outboxBody"></tbody>
+        </table>
+        <div style="margin-top:10px;">
+          <button class="ghost" id="btnFlush">立即尝试发送</button>
+          <button class="ghost" id="btnSync">拉取服务端最新（同步）</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>接收确认收据（只代表原始回传已可靠保存）</h2>
+        <div id="receipts" class="small muted">暂无回传</div>
+      </div>
+
+      <div class="card">
+        <h2>服务端当前状态（只读参考）</h2>
+        <div id="serverState" class="small muted">加载中…</div>
+      </div>
+    </div>
+  </div>
+</main>
+<div class="toast" id="toast"></div>
+<script src="/static/js/common.js"></script>
+<script src="/static/js/device.js"></script>
+</body>
+</html>
